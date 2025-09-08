@@ -2,6 +2,47 @@
 
 A Flutter package for audio waveform visualization and playback with customizable UI components.
 
+<a href="https://pub.dev/packages/wave_player">
+  <img src="https://img.shields.io/badge/dart%20sdk-%3E%3D3.6.0%20%3C4.0.0-blue"/>
+</a>
+<a href="https://pub.dev/packages/wave_player">
+  <img src="https://img.shields.io/badge/pub-wave_player-red"/>
+</a>
+<a href="https://flutter.dev/">
+  <img src="https://img.shields.io/badge/flutter-3.6+-blue"/>
+</a>
+<a href="https://opensource.org/licenses/MIT">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg"/>
+</a>
+
+Libraries help simplify working with audio waveforms and playback
+
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Basic Waveform Player](#basic-waveform-player)
+  - [Custom Theme](#custom-theme)
+  - [Advanced Customization](#advanced-customization)
+  - [Basic Audio Slider](#basic-audio-slider)
+- [Widgets](#widgets)
+  - [WaveformPlayer](#waveformplayer)
+  - [BasicAudioSlider](#basicaudioslider)
+- [Services](#services)
+  - [AudioManager](#audiomanager)
+  - [RealWaveformGenerator](#realwaveformgenerator)
+- [Styling](#styling)
+  - [Colors](#colors)
+  - [Text Styles](#text-styles)
+- [Example](#example)
+- [Dependencies](#dependencies)
+- [Requirements](#requirements)
+- [License](#license)
+- [Contributing](#contributing)
+- [Support](#support)
+- [Changelog](#changelog)
+
 ## Features
 
 - 🎵 **Waveform Player** - Complete audio player UI with waveform visualization
@@ -40,6 +81,14 @@ WaveformPlayer(
 )
 ```
 
+![Basic Waveform Player](https://github.com/your-username/wave_player/blob/main/assets/screenshot.png?raw=true)
+
+<div align="center">
+  <img src="https://github.com/your-username/wave_player/blob/main/assets/screenshot.png?raw=true" width="30%" />
+  <img src="https://github.com/your-username/wave_player/blob/main/assets/recording_1.gif?raw=true" width="30%" />
+  <img src="https://github.com/your-username/wave_player/blob/main/assets/recording_2.gif?raw=true" width="30%" />
+</div>
+
 ### Custom Theme
 
 ```dart
@@ -67,16 +116,39 @@ final customTheme = WavePlayerTheme(
 WavePlayerColors.theme = customTheme;
 ```
 
-### Volume Bar Indicator
+
+### Advanced Customization
 
 ```dart
-VolumeBarIndicator(
-  volume: 0.7, // 0.0 to 1.0
-  barCount: 8,
-  width: 100,
-  height: 30,
-  activeColor: Colors.green,
-  inactiveColor: Colors.grey,
+WaveformPlayer(
+  audioUrl: 'https://example.com/audio.mp3',
+  waveformHeight: 32.0,
+  thumbSize: 20.0,
+  thumbShape: ThumbShape.roundedBar,
+  activeColor: Colors.blue,
+  inactiveColor: Colors.grey[300]!,
+  thumbColor: Colors.blue,
+  backgroundColor: Colors.white,
+  showPlayButton: true,
+  showDuration: true,
+  autoPlay: false,
+  playButtonSize: 48.0,
+  playButtonColor: Colors.blue,
+  playButtonIconColor: Colors.white,
+  barWidth: 3.0,
+  barSpacing: 2.0,
+  onPlayPause: (isPlaying) {
+    print('Playing: $isPlaying');
+  },
+  onPositionChanged: (position) {
+    print('Position: $position');
+  },
+  onCompleted: () {
+    print('Playback completed');
+  },
+  onError: (error) {
+    print('Error: $error');
+  },
 )
 ```
 
@@ -96,7 +168,6 @@ BasicAudioSlider(
     // Handle seek end
   },
   waveformData: waveformData,
-  isSender: false,
   activeColor: WavePlayerColors.primary,
   inactiveColor: WavePlayerColors.neutral60,
   thumbColor: WavePlayerColors.primary,
@@ -105,6 +176,7 @@ BasicAudioSlider(
   thumbShape: ThumbShape.verticalBar,
 )
 ```
+
 
 
 ## Widgets
@@ -202,58 +274,113 @@ The package includes a comprehensive set of colors and text styles:
 ```dart
 // Primary colors
 WavePlayerColors.primary
+WavePlayerColors.primaryLight
+WavePlayerColors.primaryDark
 WavePlayerColors.primary70
 WavePlayerColors.primary50
 WavePlayerColors.primary30
 WavePlayerColors.primary10
 
-// Neutral colors
-WavePlayerColors.neutral0
-WavePlayerColors.neutral7
-WavePlayerColors.neutral10
-// ... and more
+// Secondary colors
+WavePlayerColors.secondary
 
 // Semantic colors
+WavePlayerColors.success
+WavePlayerColors.warning
+WavePlayerColors.error
+WavePlayerColors.info
+
+// Background colors
+WavePlayerColors.background
+WavePlayerColors.surface
+WavePlayerColors.surfaceVariant
+
+// Text colors
+WavePlayerColors.textPrimary
+WavePlayerColors.textSecondary
+WavePlayerColors.textOnPrimary
+
+// Audio player specific
+WavePlayerColors.waveformActive
+WavePlayerColors.waveformInactive
+WavePlayerColors.waveformThumb
+WavePlayerColors.playButton
+
+// Basic colors
 WavePlayerColors.white
 WavePlayerColors.black
 WavePlayerColors.red
 WavePlayerColors.green
 WavePlayerColors.orange
-WavePlayerColors.yellow
+
+// Neutral colors
+WavePlayerColors.neutral10
+WavePlayerColors.neutral50
+WavePlayerColors.neutral60
+WavePlayerColors.neutral70
+WavePlayerColors.neutral80
 ```
 
 ### Text Styles
 
 ```dart
+// Main text styles
+WavePlayerTextStyles.small
+WavePlayerTextStyles.body
+WavePlayerTextStyles.bodyMedium
+WavePlayerTextStyles.large
+
+// Legacy compatibility (still available)
 WavePlayerTextStyles.regularSmall
 WavePlayerTextStyles.regularMedium
 WavePlayerTextStyles.regularLarge
-WavePlayerTextStyles.mediumSmall
+WavePlayerTextStyles.smallMedium
 WavePlayerTextStyles.mediumMedium
 WavePlayerTextStyles.mediumLarge
-WavePlayerTextStyles.boldSmall
-WavePlayerTextStyles.boldMedium
 WavePlayerTextStyles.boldLarge
 ```
+
 
 ## Example
 
 See the `example/` directory for a complete example app demonstrating all features.
+
+```bash
+cd example
+flutter run
+```
 
 ## Dependencies
 
 - `just_audio` - Audio playback
 - `path_provider` - File system access
 - `permission_handler` - Permission handling
+- `http` - HTTP requests for audio files
+
+## Requirements
+
+- Flutter 3.6+
+- Dart 3.6+
+- iOS 11.0+ / Android API 21+
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
 ## Support
 
-If you encounter any issues or have questions, please file an issue on the GitHub repository.
+If you encounter any issues or have questions, please file an issue on the [GitHub repository](https://github.com/your-username/wave_player/issues).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and version history.

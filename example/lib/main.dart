@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wave Player Example',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
       home: const WavePlayerExample(),
@@ -58,9 +57,9 @@ class _WavePlayerExampleState extends State<WavePlayerExample> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Wave Player Example'),
-        backgroundColor: WavePlayerColors.primary,
-        foregroundColor: WavePlayerColors.white,
+        title: const Text('Wave Player Example',
+            style: TextStyle(color: Colors.black)),
+        elevation: 1,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -70,63 +69,77 @@ class _WavePlayerExampleState extends State<WavePlayerExample> {
             Text(
               'Waveform Player',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: WavePlayerColors.primary,
+                color: WavePlayerColors.black,
               ),
             ),
             const SizedBox(height: 20),
-            Card(
-              color: Colors.white,
-              elevation: 3,
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: WaveformPlayer(
-                  backgroundColor: Colors.white,
-                  audioUrl:
-                      'https://d38nvwmjovqyq6.cloudfront.net/va90web25003/companions/ws_smith/1%20Comparison%20Of%20Vernacular%20And%20Refined%20Speech.mp3',
-                ),
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.15),
+                    spreadRadius: 2,
+                    blurRadius: 4,
+                    offset: Offset(0, 0),
+                  ),
+                ],
+              ),
+              child: WaveformPlayer(
+                backgroundColor: Colors.white,
+                audioUrl:
+                    'https://d38nvwmjovqyq6.cloudfront.net/va90web25003/companions/ws_smith/1%20Comparison%20Of%20Vernacular%20And%20Refined%20Speech.mp3',
               ),
             ),
             const SizedBox(height: 32),
             Text(
               'Basic Audio Slider',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: WavePlayerColors.primary,
+                color: WavePlayerColors.black,
               ),
             ),
             const SizedBox(height: 20),
-            Card(
-                color: Colors.white,
-                elevation: 3,
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      BasicAudioSlider(
-                        value: 0.0,
-                        max: 100.0,
-                        onChanged: (value) {
-                          // Handle value change
-                        },
-                        onChangeStart: () {
-                          // Handle start
-                        },
-                        onChangeEnd: () {
-                          // Handle end
-                        },
-                        waveformData: _generateSampleWaveform(),
-                        activeColor: WavePlayerColors.waveformActive,
-                        inactiveColor: WavePlayerColors.waveformInactive,
-                        thumbColor: WavePlayerColors.waveformThumb,
-                        height: 30,
-                        thumbSize: 24,
-                        thumbShape: ThumbShape.verticalBar,
-                      ),
-                    ],
-                  ),
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      offset: Offset(0, 0),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    BasicAudioSlider(
+                      value: 0.0,
+                      max: 100.0,
+                      onChanged: (value) {
+                        // Handle value change
+                      },
+                      onChangeStart: () {
+                        // Handle start
+                      },
+                      onChangeEnd: () {
+                        // Handle end
+                      },
+                      waveformData: _generateSampleWaveform(),
+                      activeColor: WavePlayerColors.waveformActive,
+                      inactiveColor: WavePlayerColors.waveformInactive,
+                      thumbColor: WavePlayerColors.waveformThumb,
+                      thumbShape: ThumbShape.verticalBar,
+                    ),
+                  ],
                 )),
           ],
         ),

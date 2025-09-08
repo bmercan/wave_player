@@ -70,7 +70,7 @@ class WavePlayerTheme {
 /// Default theme instance
 const WavePlayerTheme defaultTheme = WavePlayerTheme();
 
-/// Legacy compatibility - keeping old names for backward compatibility
+/// Simplified Wave Player Colors
 class WavePlayerColors {
   static WavePlayerTheme _theme = defaultTheme;
 
@@ -119,12 +119,14 @@ class WavePlayerColors {
   static Color get playButton => _theme.playButton;
   static Color get playButtonPressed => _theme.playButtonPressed;
 
-  // Legacy compatibility
+  // Basic colors
   static Color get white => Colors.white;
   static Color get black => Colors.black;
   static Color get red => _theme.errorColor;
   static Color get green => _theme.successColor;
   static Color get orange => _theme.warningColor;
+  
+  // Neutral colors
   static Color get neutral60 => const Color(0xFFAEAEB2);
   static Color get neutral70 => const Color(0xFFC7C7CC);
   static Color get neutral80 => const Color(0xFFD1D1D6);
@@ -132,9 +134,8 @@ class WavePlayerColors {
   static Color get neutral10 => const Color(0xFF2C2C2E);
 }
 
-/// Text style constants for the wave player package
+/// Simplified Text Styles
 class WavePlayerTextStyles {
-  // Essential text styles only
   static const TextStyle small = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w500,
@@ -171,44 +172,4 @@ class WavePlayerTextStyles {
   static const TextStyle mediumMedium = bodyMedium;
   static const TextStyle mediumLarge = large;
   static const TextStyle boldLarge = large;
-}
-
-/// Legacy compatibility - keeping old names for backward compatibility
-class AppColors {
-  static Color get main => WavePlayerColors.primary;
-  static Color get main_70 => WavePlayerColors.primary70;
-  static Color get main_50 => WavePlayerColors.primary50;
-  static Color get main_30 => WavePlayerColors.primary30;
-  static Color get main_10 => WavePlayerColors.primary10;
-
-  static Color get grey10 => WavePlayerColors.neutral10;
-  static Color get grey20 => const Color(0xFF3A3A3C);
-  static Color get grey30 => const Color(0xFF48484A);
-  static Color get grey50 => const Color(0xFF8E8E93);
-
-  static Color get white => WavePlayerColors.white;
-  static Color get body => WavePlayerColors.textSecondary;
-  static Color get red => WavePlayerColors.red;
-
-  static Color get neutral0 => Colors.black;
-  static Color get neutral7 => const Color(0xFF1C1C1E);
-}
-
-class AppTextStyle {
-  static TextStyle style(AppTextStyleType type, Color color) {
-    switch (type) {
-      case AppTextStyleType.body2Bold:
-        return WavePlayerTextStyles.bodyMedium.copyWith(color: color);
-      case AppTextStyleType.regularMedium:
-        return WavePlayerTextStyles.regularMedium.copyWith(color: color);
-      case AppTextStyleType.body4:
-        return WavePlayerTextStyles.regularSmall.copyWith(color: color);
-    }
-  }
-}
-
-enum AppTextStyleType {
-  body2Bold,
-  regularMedium,
-  body4,
 }
