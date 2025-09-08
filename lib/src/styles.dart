@@ -125,7 +125,7 @@ class WavePlayerColors {
   static Color get red => _theme.errorColor;
   static Color get green => _theme.successColor;
   static Color get orange => _theme.warningColor;
-  
+
   // Neutral colors
   static Color get neutral60 => const Color(0xFFAEAEB2);
   static Color get neutral70 => const Color(0xFFC7C7CC);

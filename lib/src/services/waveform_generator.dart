@@ -54,6 +54,11 @@ class RealWaveformGenerator {
 
   static Future<File?> _downloadAudioToLocal(String audioUrl) async {
     try {
+      // For web, we can't save files locally, so return null
+      if (kIsWeb) {
+        return null;
+      }
+
       final response = await http.get(Uri.parse(audioUrl));
       if (response.statusCode == 200) {
         final directory = await getTemporaryDirectory();

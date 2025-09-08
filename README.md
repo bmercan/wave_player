@@ -83,11 +83,10 @@ WaveformPlayer(
 
 
 
-<div align="center">
-  <img src="https://github.com/QuangNH0606/wave_player/blob/main/assets/screenshot.png?raw=true" width="30%" />
-  <img src="https://github.com/QuangNH0606/wave_player/blob/main/assets/recording_1.gif?raw=true" width="30%" />
-  <img src="https://github.com/QuangNH0606/wave_player/blob/main/assets/recording_2.gif?raw=true" width="30%" />
-</div>
+### Examples
+Screenshot | Recording 1 | Recording 2 |
+---:|:---:|:---:|
+<img src="assets/screenshot.png" width="275" /> | <img src="assets/recording_1.gif" width="275" /> | <img src="assets/recording_2.gif" width="275" /> |
 
 ### Custom Theme
 
