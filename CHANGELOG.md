@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.0.3] 
+### 🚀 Bug Fixes
+- **Fixed demo support** - Updated url
 
-## [0.0.2] - 2025-01-08
+## [0.0.2] 
 
 ### 🚀 Bug Fixes & Improvements
 - **Fixed platform support** - Updated to support only platforms compatible with `just_audio` (Android, iOS, Web, macOS)
@@ -29,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ❌ Windows (removed due to `just_audio` limitations)
 - ❌ Linux (removed due to `just_audio` limitations)
 
-## [0.0.1] - 2025-09-08
+## [0.0.1]
 
 ### 🎉 Initial Release
 

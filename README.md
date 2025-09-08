@@ -84,9 +84,9 @@ WaveformPlayer(
 
 
 ### Examples
-Screenshot | Recording 1 | Recording 2 |
----:|:---:|:---:|
-<img src="assets/screenshot.png" width="275" /> | <img src="assets/recording_1.gif" width="275" /> | <img src="assets/recording_2.gif" width="275" /> |
+|Screenshot|Recording 1|Recording 2|
+|:---:|:---:|:---:|
+|![](assets/screenshot.png)|![](assets/recording_1.gif)|![](assets/recording_2.gif)|
 
 ### Custom Theme
 
