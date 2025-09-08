@@ -81,7 +81,7 @@ WaveformPlayer(
 )
 ```
 
-![Basic Waveform Player](https://github.com/QuangNH0606/wave_player/blob/main/assets/screenshot.png?raw=true)
+
 
 <div align="center">
   <img src="https://github.com/QuangNH0606/wave_player/blob/main/assets/screenshot.png?raw=true" width="30%" />
