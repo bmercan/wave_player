@@ -11,12 +11,6 @@ topics:
   - music
   - player
   - flutter
-  - ui
-  - visualization
-  - media
-  - sound
-  - audio-player
-  - waveform-visualization
 
 environment:
   sdk: ^3.6.0
