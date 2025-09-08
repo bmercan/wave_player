@@ -81,12 +81,12 @@ WaveformPlayer(
 )
 ```
 
-![Basic Waveform Player](https://github.com/your-username/wave_player/blob/main/assets/screenshot.png?raw=true)
+![Basic Waveform Player](https://github.com/YOUR_GITHUB_USERNAME/wave_player/blob/main/assets/screenshot.png?raw=true)
 
 <div align="center">
-  <img src="https://github.com/your-username/wave_player/blob/main/assets/screenshot.png?raw=true" width="30%" />
-  <img src="https://github.com/your-username/wave_player/blob/main/assets/recording_1.gif?raw=true" width="30%" />
-  <img src="https://github.com/your-username/wave_player/blob/main/assets/recording_2.gif?raw=true" width="30%" />
+  <img src="https://github.com/YOUR_GITHUB_USERNAME/wave_player/blob/main/assets/screenshot.png?raw=true" width="30%" />
+  <img src="https://github.com/YOUR_GITHUB_USERNAME/wave_player/blob/main/assets/recording_1.gif?raw=true" width="30%" />
+  <img src="https://github.com/YOUR_GITHUB_USERNAME/wave_player/blob/main/assets/recording_2.gif?raw=true" width="30%" />
 </div>
 
 ### Custom Theme
