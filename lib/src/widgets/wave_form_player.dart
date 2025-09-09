@@ -8,6 +8,7 @@ import '../services/waveform_generator.dart';
 import '../styles.dart';
 import 'button_glow.dart';
 import 'basic_audio_slider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /// A customizable audio waveform player widget
 /// A complete waveform player widget with audio visualization, play/pause controls,
@@ -58,6 +59,10 @@ class WaveformPlayer extends StatefulWidget {
     this.glowColor,
     this.barWidth = 4.0,
     this.barSpacing = 1.0,
+    this.playIconPath,
+    this.pauseIconPath,
+    this.playButtonDecoration,
+    this.playButtonIconSize,
   });
 
   /// URL of the audio file to play
@@ -131,6 +136,18 @@ class WaveformPlayer extends StatefulWidget {
 
   /// Spacing between waveform bars
   final double barSpacing;
+
+  /// Custom Play Icon
+  final String? playIconPath;
+
+  /// Custom Pause Icon
+  final String? pauseIconPath;
+
+  /// Play Button Decoration
+  final BoxDecoration? playButtonDecoration;
+
+  /// Play Button Size
+  final double? playButtonIconSize;
 
   @override
   State<WaveformPlayer> createState() => _WaveformPlayerState();
@@ -443,15 +460,25 @@ class _WaveformPlayerState extends State<WaveformPlayer>
     );
   }
 
+  Widget _buildCustomPlayButton() {
+    return Container(
+      width: widget.playButtonSize,
+      height: widget.playButtonSize,
+      decoration: widget.playButtonDecoration ?? _buildPlayButtonDecoration(),
+      child: _buildPlayButtonContent(),
+    );
+  }
+
   Widget _buildPlayButton() {
     return GestureDetector(
       onTap: _hasError ? null : _togglePlayPause,
-      child: Container(
-        width: widget.playButtonSize,
-        height: widget.playButtonSize,
-        decoration: _buildPlayButtonDecoration(),
-        child: _buildPlayButtonContent(),
-      ),
+      child: _buildCustomPlayButton() ??
+          Container(
+            width: widget.playButtonSize,
+            height: widget.playButtonSize,
+            decoration: _buildPlayButtonDecoration(),
+            child: _buildPlayButtonContent(),
+          ),
     );
   }
 
@@ -488,14 +515,24 @@ class _WaveformPlayerState extends State<WaveformPlayer>
   }
 
   Widget _buildErrorIcon() {
-    return const Icon(
-      Icons.error_outline,
-      color: Colors.white,
-      size: 20,
-    );
+    return const Icon(Icons.error_outline, color: Colors.white, size: 20);
   }
 
   Widget _buildAnimatedPlayButton() {
+    return InkWell(
+      onTap: _togglePlayPause,
+      borderRadius: BorderRadius.circular(20),
+      child: Center(
+        child: PlayPauseButton(
+          isPlaying: _isPlaying,
+          playIconPath: widget.playIconPath,
+          pauseIconPath: widget.pauseIconPath,
+          playButtonIconSize: widget.playButtonIconSize,
+          playButtonIconColor: widget.playButtonIconColor,
+        ),
+      ),
+    );
+
     return ButtonGlow(
       animate: _isPlaying,
       glowColor: widget.glowColor ?? WavePlayerColors.primary,
@@ -503,7 +540,13 @@ class _WaveformPlayerState extends State<WaveformPlayer>
         onTap: _togglePlayPause,
         borderRadius: BorderRadius.circular(20),
         child: Center(
-          child: PlayPauseButton(isPlaying: _isPlaying),
+          child: PlayPauseButton(
+            isPlaying: _isPlaying,
+            playIconPath: widget.playIconPath,
+            pauseIconPath: widget.pauseIconPath,
+            playButtonIconSize: widget.playButtonIconSize,
+            playButtonIconColor: widget.playButtonIconColor,
+          ),
         ),
       ),
     );
@@ -521,9 +564,7 @@ class _WaveformPlayerState extends State<WaveformPlayer>
                   WavePlayerTextStyles.smallMedium.copyWith(
                     color: WavePlayerColors.textSecondary,
                   ))
-              .copyWith(
-            fontFeatures: const [FontFeature.tabularFigures()],
-          ),
+              .copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
         ),
       ),
     );
@@ -617,7 +658,7 @@ class _WaveformPlayerState extends State<WaveformPlayer>
       height: 24,
       width: width,
       decoration: BoxDecoration(
-        color: WavePlayerColors.surfaceVariant,
+        color: widget.backgroundColor ?? WavePlayerColors.surfaceVariant,
         borderRadius: BorderRadius.circular(12),
       ),
       child: RepaintBoundary(
@@ -665,9 +706,17 @@ class _WaveformPlayerState extends State<WaveformPlayer>
 
 class PlayPauseButton extends StatefulWidget {
   final bool isPlaying;
+  final String? playIconPath;
+  final String? pauseIconPath;
+  final double? playButtonIconSize;
+  final Color? playButtonIconColor;
   const PlayPauseButton({
     super.key,
     required this.isPlaying,
+    this.playIconPath,
+    this.pauseIconPath,
+    this.playButtonIconSize,
+    this.playButtonIconColor,
   });
 
   @override
@@ -709,6 +758,20 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.pauseIconPath != null && widget.playIconPath != null) {
+      return AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        child: widget.isPlaying
+            ? SvgPicture.asset(widget.pauseIconPath!,
+                width: widget.playButtonIconSize,
+                height: widget.playButtonIconSize,
+                color: widget.playButtonIconColor)
+            : SvgPicture.asset(widget.playIconPath!,
+                width: widget.playButtonIconSize,
+                height: widget.playButtonIconSize,
+                color: widget.playButtonIconColor),
+      );
+    }
     return AnimatedIcon(
       icon: AnimatedIcons.play_pause,
       progress: _controller,
