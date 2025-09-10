@@ -6,7 +6,6 @@ import 'package:just_audio/just_audio.dart';
 import '../services/audio_manager.dart';
 import '../services/waveform_generator.dart';
 import '../styles.dart';
-import 'button_glow.dart';
 import 'basic_audio_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -63,6 +62,7 @@ class WaveformPlayer extends StatefulWidget {
     this.pauseIconPath,
     this.playButtonDecoration,
     this.playButtonIconSize,
+    this.playButtonPadding,
   });
 
   /// URL of the audio file to play
@@ -149,12 +149,15 @@ class WaveformPlayer extends StatefulWidget {
   /// Play Button Size
   final double? playButtonIconSize;
 
+  /// Play Button Padding
+  final EdgeInsets? playButtonPadding;
+
   @override
   State<WaveformPlayer> createState() => _WaveformPlayerState();
 }
 
 class _WaveformPlayerState extends State<WaveformPlayer>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late AudioPlayer _audioPlayer;
   bool _isPlaying = false;
   Duration _duration = Duration.zero;
@@ -172,6 +175,9 @@ class _WaveformPlayerState extends State<WaveformPlayer>
 
   // Animation
   late AnimationController _animationController;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -228,12 +234,14 @@ class _WaveformPlayerState extends State<WaveformPlayer>
   }
 
   void _handleAutoStop() {
-    setState(() {
-      _isPlaying = false;
-      _position = Duration.zero;
-      _isLoading = false;
-      _isSeeking = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isPlaying = false;
+        _position = Duration.zero;
+        _isLoading = false;
+        _isSeeking = false;
+      });
+    }
     _audioPlayer.seek(Duration.zero);
     _audioPlayer.pause();
   }
@@ -276,9 +284,11 @@ class _WaveformPlayerState extends State<WaveformPlayer>
   Future<void> _setupAudioPlayer() async {
     await _audioPlayer.setUrl(widget.audioUrl);
     _duration = _audioPlayer.duration ?? Duration.zero;
-    setState(() {
-      _isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _setupAudioListeners() {
@@ -293,9 +303,11 @@ class _WaveformPlayerState extends State<WaveformPlayer>
   }
 
   void _onPlayerStateChanged(PlayerState state) {
-    setState(() {
-      _isPlaying = state.playing;
-    });
+    if (mounted) {
+      setState(() {
+        _isPlaying = state.playing;
+      });
+    }
 
     _updateLoadingState(state);
 
@@ -306,19 +318,23 @@ class _WaveformPlayerState extends State<WaveformPlayer>
 
   void _updateLoadingState(PlayerState state) {
     if (state.processingState == ProcessingState.ready) {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
   void _handlePlaybackCompleted() {
-    setState(() {
-      _isPlaying = false;
-      _position = Duration.zero;
-      _isLoading = false;
-      _isSeeking = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isPlaying = false;
+        _position = Duration.zero;
+        _isLoading = false;
+        _isSeeking = false;
+      });
+    }
     _audioPlayer.seek(Duration.zero);
     _audioPlayer.pause();
 
@@ -327,11 +343,13 @@ class _WaveformPlayerState extends State<WaveformPlayer>
   }
 
   void _handleAudioError(dynamic error) {
-    setState(() {
-      _isLoading = false;
-      _hasError = true;
-      _errorMessage = error.toString();
-    });
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+        _errorMessage = error.toString();
+      });
+    }
 
     // Callback for error
     widget.onError?.call(error.toString());
@@ -361,10 +379,12 @@ class _WaveformPlayerState extends State<WaveformPlayer>
 
       _waveformCache[cacheKey] = _waveformData;
     } catch (e) {
-      setState(() {
-        _hasError = true;
-        _errorMessage = e.toString();
-      });
+      if (mounted) {
+        setState(() {
+          _hasError = true;
+          _errorMessage = e.toString();
+        });
+      }
     }
   }
 
@@ -389,9 +409,11 @@ class _WaveformPlayerState extends State<WaveformPlayer>
   }
 
   Future<void> _handlePause() async {
-    setState(() {
-      _isPlaying = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isPlaying = false;
+      });
+    }
 
     await _audioPlayer.pause();
     AudioManager().clearCurrentPlayer(_audioPlayer);
@@ -403,15 +425,19 @@ class _WaveformPlayerState extends State<WaveformPlayer>
     await AudioManager().setCurrentPlayer(_audioPlayer);
     _resetPlaybackState();
 
-    setState(() {
-      _isPlaying = true;
-    });
+    if (mounted) {
+      setState(() {
+        _isPlaying = true;
+      });
+    }
 
     if (_duration.inMilliseconds > 0 &&
         _position.inMilliseconds >= _duration.inMilliseconds) {
-      setState(() {
-        _position = Duration.zero;
-      });
+      if (mounted) {
+        setState(() {
+          _position = Duration.zero;
+        });
+      }
       await _audioPlayer.seek(Duration.zero);
     }
 
@@ -419,24 +445,30 @@ class _WaveformPlayerState extends State<WaveformPlayer>
   }
 
   void _resetPlaybackState() {
-    setState(() {
-      _isSeeking = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isSeeking = false;
+      });
+    }
   }
 
   void _handleSeekStart() {
-    setState(() {
-      _isSeeking = true;
-    });
+    if (mounted) {
+      setState(() {
+        _isSeeking = true;
+      });
+    }
     if (_isPlaying) {
       _audioPlayer.pause();
     }
   }
 
   void _handleSeekEnd() {
-    setState(() {
-      _isSeeking = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isSeeking = false;
+      });
+    }
     if (_duration.inMilliseconds > 0) {
       _audioPlayer.seek(_position);
     }
@@ -444,6 +476,7 @@ class _WaveformPlayerState extends State<WaveformPlayer>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -472,13 +505,7 @@ class _WaveformPlayerState extends State<WaveformPlayer>
   Widget _buildPlayButton() {
     return GestureDetector(
       onTap: _hasError ? null : _togglePlayPause,
-      child: _buildCustomPlayButton() ??
-          Container(
-            width: widget.playButtonSize,
-            height: widget.playButtonSize,
-            decoration: _buildPlayButtonDecoration(),
-            child: _buildPlayButtonContent(),
-          ),
+      child: _buildCustomPlayButton(),
     );
   }
 
@@ -529,24 +556,7 @@ class _WaveformPlayerState extends State<WaveformPlayer>
           pauseIconPath: widget.pauseIconPath,
           playButtonIconSize: widget.playButtonIconSize,
           playButtonIconColor: widget.playButtonIconColor,
-        ),
-      ),
-    );
-
-    return ButtonGlow(
-      animate: _isPlaying,
-      glowColor: widget.glowColor ?? WavePlayerColors.primary,
-      child: InkWell(
-        onTap: _togglePlayPause,
-        borderRadius: BorderRadius.circular(20),
-        child: Center(
-          child: PlayPauseButton(
-            isPlaying: _isPlaying,
-            playIconPath: widget.playIconPath,
-            pauseIconPath: widget.pauseIconPath,
-            playButtonIconSize: widget.playButtonIconSize,
-            playButtonIconColor: widget.playButtonIconColor,
-          ),
+          playButtonPadding: widget.playButtonPadding,
         ),
       ),
     );
@@ -622,7 +632,7 @@ class _WaveformPlayerState extends State<WaveformPlayer>
       height: 24,
       width: width,
       decoration: BoxDecoration(
-        color: WavePlayerColors.surfaceVariant,
+        color: widget.backgroundColor ?? WavePlayerColors.surfaceVariant,
         borderRadius: BorderRadius.circular(12),
       ),
       child: const Center(
@@ -698,9 +708,11 @@ class _WaveformPlayerState extends State<WaveformPlayer>
   }
 
   void _onWaveformChanged(double value) {
-    setState(() {
-      _position = Duration(milliseconds: value.round());
-    });
+    if (mounted) {
+      setState(() {
+        _position = Duration(milliseconds: value.round());
+      });
+    }
   }
 }
 
@@ -710,6 +722,7 @@ class PlayPauseButton extends StatefulWidget {
   final String? pauseIconPath;
   final double? playButtonIconSize;
   final Color? playButtonIconColor;
+  final EdgeInsets? playButtonPadding;
   const PlayPauseButton({
     super.key,
     required this.isPlaying,
@@ -717,6 +730,7 @@ class PlayPauseButton extends StatefulWidget {
     this.pauseIconPath,
     this.playButtonIconSize,
     this.playButtonIconColor,
+    this.playButtonPadding,
   });
 
   @override
@@ -760,16 +774,23 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
   Widget build(BuildContext context) {
     if (widget.pauseIconPath != null && widget.playIconPath != null) {
       return AnimatedContainer(
+        padding: widget.playButtonPadding,
         duration: Duration(milliseconds: 200),
         child: widget.isPlaying
-            ? SvgPicture.asset(widget.pauseIconPath!,
+            ? SvgPicture.asset(
+                widget.pauseIconPath!,
+                key: Key(widget.pauseIconPath ?? 'widget.pauseIconPath'),
                 width: widget.playButtonIconSize,
                 height: widget.playButtonIconSize,
-                color: widget.playButtonIconColor)
-            : SvgPicture.asset(widget.playIconPath!,
+                color: widget.playButtonIconColor,
+              )
+            : SvgPicture.asset(
+                widget.playIconPath!,
+                key: Key(widget.playIconPath ?? 'widget.playIconPath'),
                 width: widget.playButtonIconSize,
                 height: widget.playButtonIconSize,
-                color: widget.playButtonIconColor),
+                color: widget.playButtonIconColor,
+              ),
       );
     }
     return AnimatedIcon(

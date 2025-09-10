@@ -27,7 +27,7 @@ dependencies:
     sdk: flutter
   just_audio: ^0.10.5
   path_provider: ^2.1.5
-  permission_handler: ^12.0.1
+  permission_handler: ^11.3.1
   http: ^1.5.0
   flutter_svg: ^2.2.1
 
@@ -41,7 +41,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # Assets for documentation
   assets:
     - assets/
